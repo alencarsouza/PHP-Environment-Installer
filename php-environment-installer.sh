@@ -183,6 +183,38 @@ function InstallEclipse {
 
 ## FIM ECLIPSE CLASSIC 
 
+#---------------------------------------------#
+#         NETBEANS 7.1                        #
+#---------------------------------------------#
+
+function InstallNbeans {
+
+	echo -e "\033[1m===> Instalando Java JDK (Java SE Development Kit)  ... \033[0m\n"
+	$install sun-java6-jdk
+	echo ""
+
+	echo -e "\033[1m===> Verificando se o Java foi instalado  ... \033[0m\n"
+	java -version
+	echo ""
+	
+	echo -e "\033[1m===> Baixando o NetBeans 7.1 no site oficial (http://netbeans.org/) ... \033[0m\n"
+	wget http://download.netbeans.org/netbeans/7.1/final/bundles/netbeans-7.1-ml-linux.sh
+	echo "Download completo!"
+	echo ""
+
+	echo -e "\033[1m===> Instalando o NetBeans 7.1 ... \033[0m\n"
+	sudo chmod +x netbeans-7.1-ml-linux.sh
+	sudo ./netbeans-7.1-ml-linux.sh
+	echo ""
+
+	echo -e "\033[1m===> NetBeans 7.1 instalado com sucesso! \033[0m\n"
+	echo ""
+
+	
+}
+
+## FIM NETBEANS
+
 
 #---------------------------------------------#
 #         BROWSER                             #
@@ -216,15 +248,16 @@ echo ""
 echo "-----------------------------------------------------------------"
 echo "O que você gostaria de fazer? (digite o numero da opção desejada) "; echo "";
 INPUT=0
-while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ] && [ $INPUT != 4 ] && [ $INPUT != 5 ] && [ $INPUT != 6 ]
+while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ] && [ $INPUT != 4 ] && [ $INPUT != 5 ] && [ $INPUT != 6 ] && [ $INPUT != 7 ]
 do
 echo "1. Instalar Apache2 / Mysql 5 e PHP5"
 echo "2. Instalar PHPUnit"
 echo "3. Instalar Xdebug"
 echo "4. Instalar APC"
 echo "5. Instalar Eclipse Classic"
-echo "6. Instalar Google Chrome"
-echo "7. Sair"
+echo "6. Instalar NetBeans 7.1"
+echo "7. Instalar Google Chrome"
+echo "8. Sair"
 
 
 read INPUT
@@ -260,17 +293,24 @@ then
 else
 if [ $INPUT -eq 6 ]
 then
-	InstallBrowser
+	InstallNbeans
 	Menu
 	return
 else
 if [ $INPUT -eq 7 ]
+then
+	InstallBrowser
+	Menu
+	return
+else
+if [ $INPUT -eq 8 ]
 then
 	return
 else
 
 	echo "opção invalida"
 	Menu
+fi
 fi
 fi
 fi
