@@ -145,7 +145,7 @@ function InstallEclipse {
 	echo ""
 
 	echo -e "\033[1m===> Copiando arquivo para /usr/local ... \033[0m\n"
-	sudo mv -f eclipse /usr/local
+	sudo cp -R eclipse /usr/local
 	echo ""
 
 	echo -e "\033[1m===> Copiando ícone do Eclipse para o diretório de ícones do sistema ... \033[0m\n"
@@ -176,6 +176,7 @@ function InstallEclipse {
 	echo ""
 
 	sudo rm eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
+	sudo rm -R eclipse
 
 	echo -e "\033[1m===> Eclipse Classic instalado com sucesso! \033[0m\n"
 	echo ""
