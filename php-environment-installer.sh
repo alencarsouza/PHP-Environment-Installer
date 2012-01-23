@@ -80,15 +80,25 @@ function InstallXdebug {
 	$install php5-dev php-pear
 	sudo pecl install xdebug
 
-	echo -e "\033[1m===> Configurando o arquivo php.ini ... \033[0m\n"
-	sudo sh -c 'echo "" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "zend_extension=/usr/lib/php5/<DATE+lfs>/xdebug.so" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "[xdebug]" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "xdebug.remote_enable=1" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "xdebug.remote_handler=dbgp" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "xdebug.remote_port=9000" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "xdebug.remote_autostart=1" >> /etc/php5/apache2/php.ini'
+	echo -e "\033[1m===> Criando o arquivo xdebug.ini ... \033[0m\n"
+	sudo touch /etc/php5/conf.d/xdebug.ini
+
+	sudo sh -c 'echo "" >> /etc/php5/conf.d/xdebug.ini'
+	sudo sh -c 'echo "[xdebug]" >> /etc/php5/conf.d/xdebug.ini'
+	sudo sh -c 'echo "zend_extension=/usr/lib/php5/20090626/xdebug.so" >> /etc/php5/conf.d/xdebug.ini'
+	sudo sh -c 'echo "" >> /etc/php5/conf.d/xdebug.ini'	
+
+	sudo sh -c 'echo "xdebug.remote_port = 9100" >> /etc/php5/conf.d/xdebug.ini'
+	sudo sh -c 'echo "xdebug.remote_handler= dbgp" >> /etc/php5/conf.d/xdebug.ini'
+	sudo sh -c 'echo "xdebug.remote_host= localhost" >> /etc/php5/conf.d/xdebug.ini'
+	sudo sh -c 'echo "xdebug.remote_enable = On" >> /etc/php5/conf.d/xdebug.ini'
+	sudo sh -c 'echo "" >> /etc/php5/conf.d/xdebug.ini'	
+
+	sudo sh -c 'echo "xdebug.profiler_enable = On" >> /etc/php5/conf.d/xdebug.ini'
+	sudo sh -c 'echo "xdebug.profiler_output_name = cachegrind.out" >> /etc/php5/conf.d/xdebug.ini'
+
+	echo -e "\033[1m===> Reiniciando o Apache \033[0m\n"
+	sudo /etc/init.d/apache2 restart
 
 	echo -e "\033[1m===> Xdebug instalado com sucesso! \033[0m\n"
 	echo ""
