@@ -151,7 +151,7 @@ function InstallEclipse {
 	echo ""
 
 	echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
-	tar xzf eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
+	tar -xzf eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
 	echo ""
 
 	echo -e "\033[1m===> Copiando arquivo para /usr/local ... \033[0m\n"
