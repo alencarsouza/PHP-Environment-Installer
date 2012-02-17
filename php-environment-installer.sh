@@ -145,6 +145,10 @@ function Installapc {
 
 function InstallEclipse {
 
+	echo -e "\033[1m===> Instalando Java JDK (Java SE Development Kit)  ... \033[0m\n"
+	$install sun-java6-jdk
+	echo ""
+
 	echo -e "\033[1m===> Baixando Eclipse no site oficial (htp://www.eclipse.org) ... \033[0m\n"
 	wget http://eclipse.c3sl.ufpr.br/eclipse/downloads/drops/R-3.7.1-201109091335/eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
 	echo "Download completo!"
