@@ -34,7 +34,14 @@ function Installamp {
 	$install apache2 libapache2-mod-php5 php5 php5-cli php5-intl
 	$install php5-sqlite php5-suhosin php5-xcache php5-xsl php5-memcache
 	$install php5-curl php5-gd php5-mcrypt php5-json php5-mysql 
-	$install mysql-server mysql-client mysql-admin mysql-query-browser
+	$install mysql-server mysql-client 
+
+	echo -e "\033[1m===> Instalando MySQL GUI Tools ... \033[0m\n"
+
+	$install mysql-admin mysql-query-browser
+	sudo apt-add-repository ppa:junior-holowka/misc
+	sudo apt-get update
+	$install mysql-workbench-gpl
 	
 	sudo /etc/init.d/apache2 restart
 	
