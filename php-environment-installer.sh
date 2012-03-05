@@ -153,7 +153,7 @@ function Installapc {
 function InstallEclipse {
 
 	echo -e "\033[1m===> Instalando Java JDK (Java SE Development Kit)  ... \033[0m\n"
-	$install sun-java6-jdk
+	$install openjdk-6-jdk
 	echo ""
 
 	echo -e "\033[1m===> Baixando Eclipse no site oficial (htp://www.eclipse.org) ... \033[0m\n"
