@@ -92,7 +92,7 @@ function InstallXdebug {
 
 	sudo sh -c 'echo "" >> /etc/php5/conf.d/xdebug.ini'
 	sudo sh -c 'echo "[xdebug]" >> /etc/php5/conf.d/xdebug.ini'
-	sudo sh -c 'echo "zend_extension=/usr/lib/php5/20090626/xdebug.so" >> /etc/php5/conf.d/xdebug.ini'
+	sudo sh -c 'echo "zend_extension=/usr/lib/php5/20090626+lfs/xdebug.so" >> /etc/php5/conf.d/xdebug.ini'
 	sudo sh -c 'echo "" >> /etc/php5/conf.d/xdebug.ini'	
 
 	sudo sh -c 'echo "xdebug.remote_port = 9100" >> /etc/php5/conf.d/xdebug.ini'
