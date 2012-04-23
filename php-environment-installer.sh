@@ -157,12 +157,23 @@ function InstallEclipse {
 	echo ""
 
 	echo -e "\033[1m===> Baixando Eclipse no site oficial (htp://www.eclipse.org) ... \033[0m\n"
-	wget http://eclipse.c3sl.ufpr.br/eclipse/downloads/drops/R-3.7.1-201109091335/eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
+	
+	PROCESSADOR=`uname -p`
+	if test $PROCESSADOR = "i686"
+		then
+			wget http://eclipse.c3sl.ufpr.br/eclipse/downloads/drops/R-3.7.2-201202080800/eclipse-SDK-3.7.2-linux-gtk.tar.gz
+			echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
+			tar -xzf eclipse-SDK-3.7.2-linux-gtk.tar.gz	
+		else
+			wget http://eclipse.c3sl.ufpr.br/eclipse/downloads/drops/R-3.7.1-201109091335/eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
+			echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
+ 			tar -xzf eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
+	fi		
+	
 	echo "Download completo!"
 	echo ""
 
-	echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
-	tar -xzf eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
+	
 	echo ""
 
 	echo -e "\033[1m===> Copiando arquivo para /usr/local ... \033[0m\n"
