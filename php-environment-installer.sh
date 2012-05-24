@@ -38,10 +38,8 @@ function Installamp {
 
 	echo -e "\033[1m===> Instalando MySQL GUI Tools ... \033[0m\n"
 
-	$install mysql-admin mysql-query-browser
-	sudo apt-add-repository ppa:junior-holowka/misc
-	sudo apt-get update
-	$install mysql-workbench-gpl
+        sudo apt-get update
+	$install mysql-workbench
 	
 	sudo /etc/init.d/apache2 restart
 	
@@ -161,13 +159,13 @@ function InstallEclipse {
 	PROCESSADOR=`uname -p`
 	if test $PROCESSADOR = "i686"
 		then
-			wget http://eclipse.c3sl.ufpr.br/eclipse/downloads/drops/R-3.7.2-201202080800/eclipse-SDK-3.7.2-linux-gtk.tar.gz
-			echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
-			tar -xzf eclipse-SDK-3.7.2-linux-gtk.tar.gz	
+            wget ftp://ftp.pucpr.br/eclipse/eclipse/downloads/drops/R-3.7.2-201202080800/eclipse-SDK-3.7.2-linux-gtk.tar.gz
+            echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
+            tar -xzf eclipse-SDK-3.7.2-linux-gtk.tar.gz
 		else
-			wget http://eclipse.c3sl.ufpr.br/eclipse/downloads/drops/R-3.7.1-201109091335/eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
-			echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
- 			tar -xzf eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
+            wget ftp://ftp.pucpr.br/eclipse/eclipse/downloads/drops/R-3.7.2-201202080800/eclipse-SDK-3.7.2-linux-gtk-x86_64.tar.gz
+            echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
+            tar -xzf eclipse-SDK-3.7.2-linux-gtk-x86_64.tar.gz
 	fi		
 	
 	echo "Download completo!"
@@ -207,7 +205,6 @@ function InstallEclipse {
 	sudo chmod g+w -R /usr/local/eclipse/
 	echo ""
 
-	sudo rm eclipse-SDK-3.7.1-linux-gtk-x86_64.tar.gz
 	sudo rm -R eclipse
 
 	echo -e "\033[1m===> Eclipse Classic instalado com sucesso! \033[0m\n"
