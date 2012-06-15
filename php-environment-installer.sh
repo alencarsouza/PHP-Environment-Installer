@@ -131,7 +131,7 @@ function InstallXdebug {
 	echo -e "\033[1m===> Criando o arquivo xdebug.ini ... \033[0m\n"
 	sudo touch /etc/php5/conf.d/xdebug.ini
 
-	cat > /etc/php5/conf.d/xdebug.ini<<-EOF
+	sudo bash -c 'cat > /etc/php5/conf.d/xdebug.ini'<<-EOF
 	[xdebug]
 	zend_extension=/usr/lib/php5/20090626/xdebug.so
 
@@ -178,7 +178,7 @@ function Installapc {
 	echo -e "\033[1m===> Configurando o arquivo apc.ini ... \033[0m\n"
 	sudo touch /etc/php5/conf.d/apc.ini
 
-	cat > /etc/php5/conf.d/apc.ini<<-EOF
+	sudo bash -c 'cat > /etc/php5/conf.d/apc.ini'<<-EOF
 	[apc]
 	extension=apc.so
 	apc.enabled = 1
@@ -238,7 +238,7 @@ function InstallEclipse {
 	echo -e "\033[1m===> Criando atalho no menu de aplicativos ... \033[0m\n"
 	sudo touch /usr/share/applications/eclipse.desktop
 
-	cat > /usr/share/applications/eclipse.desktop<<-EOF
+	sudo bash -c 'cat > /usr/share/applications/eclipse.desktop'<<-EOF
 	[Desktop Entry]
 	Comment=Eclipse SDK
 	Name=Eclipse SDK
