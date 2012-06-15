@@ -20,11 +20,7 @@ echo "||                                           ||"
 echo "||     junior.holowka@gmail.com              ||"
 echo "||===========================================||"
 
-# check for root
-if [ "$(id -u)" != "0" ]; then
-   echo "You must run this script as root" 1>&2
-   exit 1
-fi
+
 
 install="sudo apt-get install --yes --force-yes"
 
