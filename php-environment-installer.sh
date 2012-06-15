@@ -57,6 +57,7 @@ function InstallPunit {
 	# usage: 
 	# phpunit . 
 	# phpunit --coverage-html ../folder .
+
 	
 	echo -e "\033[1m===> Instalando PHPUnit ... \033[0m\n"
 	$install php5-curl php-pear php5-dev
@@ -75,8 +76,8 @@ function InstallPunit {
 
 	## PHP CodeSniffer
 	# usage:
-	# phpcs --standard=Zend .
-	# phpcs --config-set default_standard Zend
+	# phpcs file.php
+	# phpcs --report=summary folder/
 
 	sudo pear install PHP_CodeSniffer
 
@@ -181,14 +182,14 @@ function Installapc {
 	sudo bash -c 'cat > /etc/php5/conf.d/apc.ini'<<-EOF
 	[apc]
 	extension=apc.so
-	apc.enabled = 1
-	apc.shm_segments = 1
-	apc.shm_size = 30
-	apc.optimization = 0
-	apc.ttl = 7200
-	apc.user_ttl = 7200
-	apc.num_files_hint = 1000
-	apc.mmap_file_mask = /tmp/apc.XXXXXX	
+	apc.enabled=1
+	apc.shm_segments=1
+	apc.shm_size=512M
+	apc.optimization=0
+	apc.ttl=7200
+	apc.user_ttl=7200
+	apc.num_files_hint=1000
+	apc.mmap_file_mask=/tmp/apc.XXXXXX	
 	EOF
 	
 	echo -e "\033[1m===> APC instalado com sucesso! \033[0m\n"
