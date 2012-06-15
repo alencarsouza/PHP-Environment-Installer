@@ -7,12 +7,12 @@
 
 # suggestions of feedback? reach me at junior.holowka@gmail.com
 
-# latest update 08/January/2012
+# latest update 14/Jun/2012
 
 echo ""
 echo "||===========================================||"
 echo "||     PHP Environment Installer             ||"
-echo "||     Version 2.0                           ||" 
+echo "||     Version 2.1                           ||" 
 echo "||                                           ||"
 echo "||     Please feel free to improve           ||"
 echo "||     this script however you desire.       ||"
@@ -20,15 +20,19 @@ echo "||                                           ||"
 echo "||     junior.holowka@gmail.com              ||"
 echo "||===========================================||"
 
-install="sudo apt-get install --yes --force-yes"
+# check for root
+if [ "$(id -u)" != "0" ]; then
+   echo "You must run this script as root" 1>&2
+   exit 1
+fi
 
+install="sudo apt-get install --yes --force-yes"
 
 #---------------------------------------------#
 #         APACHE/MYSQL/PHP                    #
 #---------------------------------------------#
 
-function Installamp {
-	
+function Installamp {	
 	echo -e "\033[1m===> Instalando Apache, Mysql e PHP ... \033[0m\n"
 	
 	$install apache2 libapache2-mod-php5 php5 php5-cli php5-intl
@@ -37,27 +41,29 @@ function Installamp {
 	$install mysql-server mysql-client 
 
 	echo -e "\033[1m===> Instalando MySQL GUI Tools ... \033[0m\n"
-
-        sudo apt-get update
+	sudo apt-get update
 	$install mysql-workbench
 	
 	sudo /etc/init.d/apache2 restart
 	
 	echo -e "\033[1m===> Apache, Mysql e PHP instalado com sucesso! \033[0m\n"
-	echo ""
 }
 
 ## FIM APACHE/MYSQL/PHP
 
-
 #---------------------------------------------#
-#         PHPUnit                             #
+#       CONTINUOUS INTEGRATION IN PHP         #
 #---------------------------------------------#
-
+	
 function InstallPunit {
+
+	## PHP Unit
+	# usage: 
+	# phpunit . 
+	# phpunit --coverage-html ../folder .
 	
 	echo -e "\033[1m===> Instalando PHPUnit ... \033[0m\n"
-	$install phpunit
+	$install php5-curl php-pear php5-dev
 
 	echo -e "\033[1m===> Atualizando a versão do PEAR ... \033[0m\n"
 	sudo pear upgrade pear
@@ -66,14 +72,51 @@ function InstallPunit {
 	sudo pear channel-discover pear.phpunit.de
 	sudo pear channel-discover components.ez.no
 	sudo pear channel-discover pear.symfony-project.com
-	sudo pear install --alldeps phpunit/PHPUnit
+	sudo pear install phpunit/PHPUnit
 	
 	echo -e "\033[1m===> PHPUnit instalado com sucesso! \033[0m\n"
 	echo ""
+
+	## PHP CodeSniffer
+	# usage:
+	# phpcs --standard=Zend .
+	# phpcs --config-set default_standard Zend
+
+	sudo pear install PHP_CodeSniffer
+
+	## PHP Depend
+	# usage: 
+	# pdepend --jdepend-xml=../jdepend.xml --jdepend-chart=../dependencies.svg --overview-pyramid=../overview-pyramid.svg .
+
+	sudo pear channel-discover pear.pdepend.org
+	sudo pear install pdepend/PHP_Depend-beta
+
+	## PHP Mess Detector
+	# usage:
+	# phpmd . html codesize,unusedcode,naming,design --reportfile ../messdetector.html --exclude Tests/
+
+	sudo pear channel-discover pear.phpmd.org
+	sudo pear channel-discover pear.pdepend.org
+	sudo pear install --alldeps phpmd/PHP_PMD
+
+	## PHP Copy/Paste Detector
+	# usage:
+	# phpcpd .
+
+	sudo pear channel-discover pear.phpunit.de
+	sudo pear channel-discover components.ez.no
+	sudo pear install phpunit/phpcpd
+
+	## PHP Dead Code Detector
+	# usage:
+	# phpdcd --exclude Tests/ .
+
+	sudo pear channel-discover pear.phpunit.de
+	sudo pear channel-discover components.ez.no
+	sudo pear install phpunit/phpdcd-beta
 }
 
-## FIM PHPUnit
-
+## FIM CONTINUOUS
 
 #---------------------------------------------#
 #         XDEBUG                              #
@@ -85,22 +128,36 @@ function InstallXdebug {
 	$install php5-dev php-pear
 	sudo pecl install xdebug
 
+	echo -e "\033[1m===> Criando diretórios de log ... \033[0m\n"
+	sudo mkdir -pv /tmp/xdebug/profile
+	sudo mkdir -pv /tmp/xdebug/trace
+
 	echo -e "\033[1m===> Criando o arquivo xdebug.ini ... \033[0m\n"
 	sudo touch /etc/php5/conf.d/xdebug.ini
 
-	sudo sh -c 'echo "" >> /etc/php5/conf.d/xdebug.ini'
-	sudo sh -c 'echo "[xdebug]" >> /etc/php5/conf.d/xdebug.ini'
-	sudo sh -c 'echo "zend_extension=/usr/lib/php5/20090626+lfs/xdebug.so" >> /etc/php5/conf.d/xdebug.ini'
-	sudo sh -c 'echo "" >> /etc/php5/conf.d/xdebug.ini'	
+	cat > /etc/php5/conf.d/xdebug.ini<<-EOF
+	[xdebug]
+	zend_extension=/usr/lib/php5/20090626/xdebug.so
 
-	sudo sh -c 'echo "xdebug.remote_port = 9100" >> /etc/php5/conf.d/xdebug.ini'
-	sudo sh -c 'echo "xdebug.remote_handler= dbgp" >> /etc/php5/conf.d/xdebug.ini'
-	sudo sh -c 'echo "xdebug.remote_host= localhost" >> /etc/php5/conf.d/xdebug.ini'
-	sudo sh -c 'echo "xdebug.remote_enable = On" >> /etc/php5/conf.d/xdebug.ini'
-	sudo sh -c 'echo "" >> /etc/php5/conf.d/xdebug.ini'	
+	; Remote
+	xdebug.remote_enable  = On
+	xdebug.remote_host    = localhost ; host or IP name of the machine running VIM
+	xdebug.remote_port    = 9000      ; port on which debugger.py is listening
+	xdebug.remote_mode    = "req"     ; connect on request start
+	xdebug.remote_handler = "DBGp"
+	xdebug.var_display_max_depth = 15 
+	xdebug.var_display_max_data = 4096
+	xdebug.max_nesting_level = 200
 
-	sudo sh -c 'echo "xdebug.profiler_enable = On" >> /etc/php5/conf.d/xdebug.ini'
-	sudo sh -c 'echo "xdebug.profiler_output_name = cachegrind.out" >> /etc/php5/conf.d/xdebug.ini'
+	; Profiling
+	xdebug.profiler_aggregate = 1
+	xdebug.profiler_output_name = cachegrind.out.%H%R
+	xdebug.profiler_enable = 1
+	xdebug.profiler_output_dir = /tmp/xdebug/profile
+	xdebug.auto_trace = 0
+	xdebug.trace_output_dir = /tmp/xdebug/trace
+	EOF
+
 
 	echo -e "\033[1m===> Reiniciando o Apache \033[0m\n"
 	sudo /etc/init.d/apache2 restart
@@ -122,25 +179,27 @@ function Installapc {
 	$install php5-dev php-pear
 	sudo pecl install apc
 
-	echo -e "\033[1m===> Configurando o arquivo php.ini ... \033[0m\n"
-	sudo sh -c 'echo "" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "extension=apc.so" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "[apc]" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "apc.enabled = 1" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "apc.shm_segments = 1" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "apc.shm_size = 30" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "apc.optimization = 0" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "apc.ttl = 7200" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "apc.user_ttl = 7200" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "apc.num_files_hint = 1000" >> /etc/php5/apache2/php.ini'
-	sudo sh -c 'echo "apc.mmap_file_mask = /tmp/apc.XXXXXX" >> /etc/php5/apache2/php.ini'
+	echo -e "\033[1m===> Configurando o arquivo apc.ini ... \033[0m\n"
+	sudo touch /etc/php5/conf.d/apc.ini
+
+	cat > /etc/php5/conf.d/apc.ini<<-EOF
+	[apc]
+	extension=apc.so
+	apc.enabled = 1
+	apc.shm_segments = 1
+	apc.shm_size = 30
+	apc.optimization = 0
+	apc.ttl = 7200
+	apc.user_ttl = 7200
+	apc.num_files_hint = 1000
+	apc.mmap_file_mask = /tmp/apc.XXXXXX	
+	EOF
 	
 	echo -e "\033[1m===> APC instalado com sucesso! \033[0m\n"
 	echo ""
 }
 
-## FIM APC
+## END APC
 
 
 
@@ -169,8 +228,6 @@ function InstallEclipse {
 	fi		
 	
 	echo "Download completo!"
-	echo ""
-
 	
 	echo ""
 
@@ -179,20 +236,24 @@ function InstallEclipse {
 	echo ""
 
 	echo -e "\033[1m===> Copiando ícone do Eclipse para o diretório de ícones do sistema ... \033[0m\n"
-	sudo cp /usr/local/eclipse/icon.xpm /usr/share/pixmaps/
+	sudo cp /usr/local/eclipse/icon.xpm /usr/share/pixmaps/eclipse.png
 	echo ""
 
 	echo -e "\033[1m===> Criando atalho no menu de aplicativos ... \033[0m\n"
 	sudo touch /usr/share/applications/eclipse.desktop
-	sudo sh -c 'echo "[Desktop Entry]" >> /usr/share/applications/eclipse.desktop'
-	sudo sh -c 'echo "Comment=Eclipse SDK" >> /usr/share/applications/eclipse.desktop'
-	sudo sh -c 'echo "Name=Eclipse SDK" >> /usr/share/applications/eclipse.desktop'
-	sudo sh -c 'echo "Exec=/usr/local/eclipse/eclipse" >> /usr/share/applications/eclipse.desktop'
-	sudo sh -c 'echo "MultipleArgs=true" >> /usr/share/applications/eclipse.desktop'
-	sudo sh -c 'echo "Terminal=false" >> /usr/share/applications/eclipse.desktop'
-	sudo sh -c 'echo "Type=Application" >> /usr/share/applications/eclipse.desktop'
-	sudo sh -c 'echo "Categories=Application;Development;" >> /usr/share/applications/eclipse.desktop'
-	sudo sh -c 'echo "Icon=icon.xpm" >> /usr/share/applications/eclipse.desktop'
+
+	cat > /usr/share/applications/eclipse.desktop<<-EOF
+	[Desktop Entry]
+	Comment=Eclipse SDK
+	Name=Eclipse SDK
+	Exec=/usr/local/eclipse/eclipse
+	MultipleArgs=true
+	Terminal=false
+	Type=Application
+	Categories=Application;Development;
+	Icon=eclipse.png
+	EOF
+
 	echo ""
 
 	echo -e "\033[1m===> Criando grupo DEVELOPMENT e inserindo usuário no grupo ... \033[0m\n"
@@ -211,7 +272,7 @@ function InstallEclipse {
 	echo ""
 }
 
-## FIM ECLIPSE CLASSIC 
+## END ECLIPSE 
 
 #---------------------------------------------#
 #         NETBEANS 7.1                        #
@@ -239,11 +300,10 @@ function InstallNbeans {
 
 	echo -e "\033[1m===> NetBeans 7.1 instalado com sucesso! \033[0m\n"
 	echo ""
-
 	
 }
 
-## FIM NETBEANS
+## END NETBEANS
 
 
 #---------------------------------------------#
@@ -253,7 +313,6 @@ function InstallNbeans {
 function InstallBrowser {
 	
 	echo -e "\033[1m===> Criando repósitório ... \033[0m\n"
-	wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
 	sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
 	
 	echo -e "\033[1m===> Atualizando Repositórios ... \033[0m\n"
@@ -266,7 +325,7 @@ function InstallBrowser {
 	echo ""
 }
 
-## FIM BROWSER
+## END BROWSER
 
 
 #----------------------------------#
@@ -276,18 +335,18 @@ function InstallBrowser {
 function Menu {
 echo ""
 echo "-----------------------------------------------------------------"
-echo "O que você gostaria de fazer? (digite o numero da opção desejada) "; echo "";
+echo "What would you like to do? (enter the desired option number) "; echo "";
 INPUT=0
 while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ] && [ $INPUT != 4 ] && [ $INPUT != 5 ] && [ $INPUT != 6 ] && [ $INPUT != 7 ]
 do
-echo "1. Instalar Apache2 / Mysql 5 e PHP5"
-echo "2. Instalar PHPUnit"
-echo "3. Instalar Xdebug"
-echo "4. Instalar APC"
-echo "5. Instalar Eclipse Classic"
-echo "6. Instalar NetBeans 7.1"
-echo "7. Instalar Google Chrome"
-echo "8. Sair"
+echo "1. Install Apache2, Mysql 5 e PHP5"
+echo "2. Install Continuous Integration In PHP"
+echo "3. Install Xdebug"
+echo "4. Install APC"
+echo "5. Install Eclipse Classic"
+echo "6. Install NetBeans 7.1"
+echo "7. Install Google Chrome"
+echo "8. Exit"
 
 
 read INPUT
