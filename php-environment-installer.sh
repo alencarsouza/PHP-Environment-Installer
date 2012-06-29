@@ -210,20 +210,20 @@ function InstallEclipse {
 	$install openjdk-6-jdk
 	echo ""
 
-	echo -e "\033[1m===> Baixando Eclipse no site oficial (htp://www.eclipse.org) ... \033[0m\n"
+	echo -e "\033[1m===> Baixando Eclipse Juno no site oficial (htp://www.eclipse.org) ... \033[0m\n"
 	
 	PROCESSADOR=`uname -p`
 	if test $PROCESSADOR = "i686"
 		then
-            wget ftp://ftp.pucpr.br/eclipse/eclipse/downloads/drops/R-3.7.2-201202080800/eclipse-SDK-3.7.2-linux-gtk.tar.gz
+            wget ftp://ftp.pucpr.br/eclipse/eclipse/downloads/drops4/R-4.2-201206081400/eclipse-SDK-4.2-linux-gtk.tar.gz
             echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
-            tar -xzf eclipse-SDK-3.7.2-linux-gtk.tar.gz
+            tar -xzf eclipse-SDK-4.2-linux-gtk.tar.gz
 		else
-            wget ftp://ftp.pucpr.br/eclipse/eclipse/downloads/drops/R-3.7.2-201202080800/eclipse-SDK-3.7.2-linux-gtk-x86_64.tar.gz
+            wget ftp://ftp.pucpr.br/eclipse/eclipse/downloads/drops4/R-4.2-201206081400/eclipse-SDK-4.2-linux-gtk-x86_64.tar.gz
             echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
-            tar -xzf eclipse-SDK-3.7.2-linux-gtk-x86_64.tar.gz
+            tar -xzf eclipse-SDK-4.2-linux-gtk-x86_64.tar.gz
 	fi		
-	
+
 	echo "Download completo!"
 	
 	echo ""
@@ -340,7 +340,7 @@ echo "1. Install Apache2, Mysql 5 e PHP5"
 echo "2. Install Continuous Integration In PHP"
 echo "3. Install Xdebug"
 echo "4. Install APC"
-echo "5. Install Eclipse Classic"
+echo "5. Install Eclipse Juno Classic"
 echo "6. Install NetBeans 7.1"
 echo "7. Install Google Chrome"
 echo "8. Exit"
