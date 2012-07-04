@@ -276,59 +276,6 @@ function InstallEclipse {
 
 ## END ECLIPSE 
 
-#---------------------------------------------#
-#         NETBEANS 7.1                        #
-#---------------------------------------------#
-
-function InstallNbeans {
-
-	echo -e "\033[1m===> Instalando Java JDK (Java SE Development Kit)  ... \033[0m\n"
-	$install sun-java6-jdk
-	echo ""
-
-	echo -e "\033[1m===> Verificando se o Java foi instalado  ... \033[0m\n"
-	java -version
-	echo ""
-	
-	echo -e "\033[1m===> Baixando o NetBeans 7.1 no site oficial (http://netbeans.org/) ... \033[0m\n"
-	wget http://download.netbeans.org/netbeans/7.1/final/bundles/netbeans-7.1-ml-linux.sh
-	echo "Download completo!"
-	echo ""
-
-	echo -e "\033[1m===> Instalando o NetBeans 7.1 ... \033[0m\n"
-	sudo chmod +x netbeans-7.1-ml-linux.sh
-	sudo ./netbeans-7.1-ml-linux.sh
-	echo ""
-
-	echo -e "\033[1m===> NetBeans 7.1 instalado com sucesso! \033[0m\n"
-	echo ""
-	
-}
-
-## END NETBEANS
-
-
-#---------------------------------------------#
-#         BROWSER                             #
-#---------------------------------------------#
-
-function InstallBrowser {
-	
-	echo -e "\033[1m===> Criando repósitório ... \033[0m\n"
-	sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-	
-	echo -e "\033[1m===> Atualizando Repositórios ... \033[0m\n"
-	sudo apt-get update
-
-	echo -e "\033[1m===> Instalando versão estável do Google Chrome ... \033[0m\n"
-	$install google-chrome-stable
-	
-	echo -e "\033[1m===> Google Chrome instalado com sucesso! \033[0m\n"
-	echo ""
-}
-
-## END BROWSER
-
 
 #----------------------------------#
 #          MENU PRINCIPAL          #
@@ -346,9 +293,7 @@ echo "2. Install Continuous Integration In PHP"
 echo "3. Install Xdebug"
 echo "4. Install APC"
 echo "5. Install Eclipse Juno Classic"
-echo "6. Install NetBeans 7.1"
-echo "7. Install Google Chrome"
-echo "8. Exit"
+echo "6. Exit"
 
 
 read INPUT
@@ -384,25 +329,11 @@ then
 else
 if [ $INPUT -eq 6 ]
 then
-	InstallNbeans
-	Menu
-	return
-else
-if [ $INPUT -eq 7 ]
-then
-	InstallBrowser
-	Menu
-	return
-else
-if [ $INPUT -eq 8 ]
-then
 	return
 else
 
 	echo "opção invalida"
 	Menu
-fi
-fi
 fi
 fi
 fi
