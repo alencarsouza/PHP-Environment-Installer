@@ -224,13 +224,18 @@ function InstallEclipse {
             tar -xzf eclipse-SDK-4.2-linux-gtk-x86_64.tar.gz
 	fi		
 
-	echo "Download completo!"
-	
+	echo "Download completo!"	
 	echo ""
+
+	if [ -e /usr/local/eclipse ]
+		then
+			echo "removendo diretório antigo do eclipse"
+			rm -R /usr/local/eclipse
+	fi	
 
 	echo -e "\033[1m===> Copiando arquivo para /usr/local ... \033[0m\n"
 	sudo cp -R eclipse /usr/local
-	echo ""
+	echo ""	
 
 	echo -e "\033[1m===> Copiando ícone do Eclipse para o diretório de ícones do sistema ... \033[0m\n"
 	sudo cp /usr/local/eclipse/icon.xpm /usr/share/pixmaps/eclipse.png
