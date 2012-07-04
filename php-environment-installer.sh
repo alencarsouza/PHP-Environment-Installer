@@ -230,7 +230,7 @@ function InstallEclipse {
 	if [ -e /usr/local/eclipse ]
 		then
 			echo "removendo diretório antigo do eclipse"
-			rm -R /usr/local/eclipse
+			sudo rm -R /usr/local/eclipse
 	fi	
 
 	echo -e "\033[1m===> Copiando arquivo para /usr/local ... \033[0m\n"
