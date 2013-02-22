@@ -31,7 +31,7 @@ install="sudo apt-get install --yes --force-yes"
 function Installamp {	
 	echo -e "\033[1m===> Instalando Apache, Mysql e PHP ... \033[0m\n"
 	
-	$install apache2 libapache2-mod-php5 php5 php5-cli php5-intl
+	$install apache2 libapache2-mod-php5 php5 php5-cli php5-intl php5-dev
 	$install php5-sqlite php5-suhosin php5-xcache php5-xsl php5-memcache
 	$install php5-curl php5-gd php5-mcrypt php5-json php5-mysql 
 	$install mysql-server mysql-client 
