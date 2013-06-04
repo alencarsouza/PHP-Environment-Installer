@@ -215,11 +215,11 @@ function InstallEclipse {
 	PROCESSADOR=`uname -p`
 	if test $PROCESSADOR = "i686"
 		then
-            wget ftp://ftp.pucpr.br/eclipse/eclipse/downloads/drops4/R-4.2-201206081400/eclipse-SDK-4.2-linux-gtk.tar.gz
+			wget http://eclipse.c3sl.ufpr.br/eclipse/downloads/drops4/R-4.2.2-201302041200/eclipse-SDK-4.2.2-linux-gtk.tar.gz
             echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
             tar -xzf eclipse-SDK-4.2-linux-gtk.tar.gz
 		else
-            wget ftp://ftp.pucpr.br/eclipse/eclipse/downloads/drops4/R-4.2-201206081400/eclipse-SDK-4.2-linux-gtk-x86_64.tar.gz
+			wget http://eclipse.c3sl.ufpr.br/eclipse/downloads/drops4/R-4.2.2-201302041200/eclipse-SDK-4.2.2-linux-gtk-x86_64.tar.gz
             echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
             tar -xzf eclipse-SDK-4.2-linux-gtk-x86_64.tar.gz
 	fi		
