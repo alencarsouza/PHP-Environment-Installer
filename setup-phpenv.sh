@@ -48,8 +48,8 @@ echo -e "\033[1m===> Instalando Apache, Mysql e PHP ... \033[0m\n"
 
 apt-get -y install \
 	apache2 libapache2-mod-php5 php5 php5-cli php5-intl php5-dev \
-	php5-fpm php-pear php5-imagick php5-sqlite php5-suhosin \
-	php5-xcache php5-xsl php5-memcache php5-curl php5-gd \
+	php5-fpm php-pear php5-imagick php5-sqlite php5-xcache \
+	php5-xsl php5-memcache php5-curl php5-gd \
 	php5-mcrypt php5-common php5-mysql
 
 echo -e "\033[1m===> Instalando Mysql ... \033[0m\n"
