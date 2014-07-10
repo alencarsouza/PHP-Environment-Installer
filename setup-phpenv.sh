@@ -76,21 +76,21 @@ echo -e "\033[1m===> Apache, Mysql e PHP instalado com sucesso! \033[0m\n"
 function InstallEclipse {
 
 echo -e "\033[1m===> Instalando Java JDK (Java SE Development Kit)  ... \033[0m\n"
-	apt-get -y install openjdk-6-jdk
+	apt-get -y install openjdk-7-jdk
 echo ""
 
-echo -e "\033[1m===> Baixando Eclipse Juno no site oficial (htp://www.eclipse.org) ... \033[0m\n"
+echo -e "\033[1m===> Baixando Eclipse Luna no site oficial (htp://www.eclipse.org) ... \033[0m\n"
 
 PROCESSADOR=`uname -p`
 if test $PROCESSADOR = "i686"
 	then
-		wget http://eclipse.c3sl.ufpr.br/eclipse/downloads/drops4/R-4.2.2-201302041200/eclipse-SDK-4.2.2-linux-gtk.tar.gz
+		wget http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/luna/R/eclipse-standard-luna-R-linux-gtk.tar.gz
         echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
-        tar -xzf eclipse-SDK-4.2.2-linux-gtk.tar.gz
+        tar -xzf eclipse-standard-luna-R-linux-gtk.tar.gz
 	else
-		wget http://eclipse.c3sl.ufpr.br/eclipse/downloads/drops4/R-4.2.2-201302041200/eclipse-SDK-4.2.2-linux-gtk-x86_64.tar.gz
+		wget http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/luna/R/eclipse-standard-luna-R-linux-gtk-x86_64.tar.gz
         echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
-        tar -xzf eclipse-SDK-4.2.2-linux-gtk-x86_64.tar.gz
+        tar -xzf eclipse-standard-luna-R-linux-gtk-x86_64.tar.gz
 fi		
 
 echo "Download completo!"	
@@ -158,7 +158,7 @@ INPUT=0
 while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ]
 do
 echo "1. Install Apache2, Mysql 5 e PHP5"
-echo "2. Install Eclipse Juno Classic"
+echo "2. Install Eclipse Luna Classic"
 echo "3. Exit"
 
 
