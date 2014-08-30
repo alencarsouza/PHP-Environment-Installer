@@ -35,33 +35,33 @@ echo "||     this script however you desire.       ||"
 echo "||                                           ||"
 echo "||     junior.holowka@gmail.com              ||"
 echo "||===========================================||"
-
+echo ""
 
 
 #---------------------------------------------#
-#         APACHE/MYSQL/PHP                    #
+#         NGINX/MYSQL/PHP                     #
 #---------------------------------------------#
 
-function Installamp {	
+function Installnmp {	
 
-echo -e "\033[1m===> Instalando Apache, Mysql e PHP ... \033[0m\n"
+echo -e "\033[1m===> Instalando Nginx e PHP ... \033[0m\n"
 
 apt-get -y install \
-	apache2 libapache2-mod-php5 php5 php5-cli php5-intl php5-dev php5-pgsql \
-	php5-fpm php-pear php5-imagick php5-sqlite php5-xcache \
+	nginx php5 php5-cli php5-intl php5-dev php5-pgsql \
+	php5-fpm php-pear php5-sqlite php5-xcache \
 	php5-xsl php5-memcache php5-curl php5-gd \
-	php5-mcrypt php5-common php5-mysql
+	php5-mcrypt php5-common php5-mysql \
+	php5-imagick imagemagick
 
 echo -e "\033[1m===> Instalando Mysql ... \033[0m\n"
 
 apt-get -y install mysql-server mysql-client 
 
-sudo /etc/init.d/apache2 restart
-
-echo -e "\033[1m===> Apache, Mysql e PHP instalado com sucesso! \033[0m\n"
+echo -e "\033[1m===> Nginx, Mysql e PHP instalado com sucesso! \033[0m\n"
 
 }
-## FIM APACHE/MYSQL/PHP
+
+## FIM NGINX/MYSQL/PHP
 
 
 #---------------------------------------------#
@@ -152,7 +152,7 @@ echo "What would you like to do? (enter the desired option number) "; echo "";
 INPUT=0
 while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ]
 do
-echo "1. Install Apache2, Mysql 5 e PHP5"
+echo "1. Install Nginx, Mysql 5 e PHP5"
 echo "2. Install Eclipse Luna Classic"
 echo "3. Exit"
 
@@ -160,7 +160,7 @@ echo "3. Exit"
 read INPUT
 if [ $INPUT -eq 1 ] 
 then
-	Installamp
+	Installnmp
 	Menu
 	return
 else 
