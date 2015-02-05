@@ -53,9 +53,9 @@ apt-get -y install \
 	php5-mcrypt php5-common php5-mysql \
 	php5-imagick imagemagick
 
-echo -e "\033[1m===> Instalando Mysql ... \033[0m\n"
+echo -e "\033[1m===> Instalando Mysql 5.6 ... \033[0m\n"
 
-apt-get -y install mysql-server mysql-client 
+apt-get install mysql-client-5.6 mysql-client-core-5.6 mysql-server-5.6
 
 echo -e "\033[1m===> Nginx, Mysql e PHP instalado com sucesso! \033[0m\n"
 
