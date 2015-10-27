@@ -28,7 +28,7 @@
 echo ""
 echo "||===========================================||"
 echo "||     PHP Environment Installer             ||"
-echo "||     Version 2.0                           ||" 
+echo "||     Version 2.1                           ||" 
 echo "||                                           ||"
 echo "||     Please feel free to improve           ||"
 echo "||     this script however you desire.       ||"
@@ -44,7 +44,12 @@ echo ""
 
 function Installnmp {	
 
-echo -e "\033[1m===> Instalando Nginx e PHP ... \033[0m\n"
+echo -e "\033[1m===> Installing Nginx and PHP 5.6 ... \033[0m\n"
+
+apt-get -y install software-properties-common
+add-apt-repository -y ppa:ondrej/php5-5.6
+
+apt-get -y update && apt-get -y upgrade
 
 apt-get -y install \
 	nginx php5 php5-cli php5-intl php5-dev php5-pgsql \
@@ -53,15 +58,14 @@ apt-get -y install \
 	php5-mcrypt php5-common php5-mysql \
 	php5-imagick imagemagick
 
-echo -e "\033[1m===> Instalando Mysql 5.6 ... \033[0m\n"
+echo -e "\033[1m===> Installing Mysql 5.6 ... \033[0m\n"
 
 apt-get install mysql-client-5.6 mysql-client-core-5.6 mysql-server-5.6
 
-echo -e "\033[1m===> Nginx, Mysql e PHP instalado com sucesso! \033[0m\n"
+echo -e "\033[1m===> Success! \033[0m\n"
 
 }
-
-## FIM NGINX/MYSQL/PHP
+## END NGINX/MYSQL/PHP
 
 
 #---------------------------------------------#
@@ -70,42 +74,40 @@ echo -e "\033[1m===> Nginx, Mysql e PHP instalado com sucesso! \033[0m\n"
 
 function InstallEclipse {
 
-echo -e "\033[1m===> Instalando Java JDK (Java SE Development Kit)  ... \033[0m\n"
-	apt-get -y install openjdk-7-jdk
+echo -e "\033[1m===> Installing Java ... \033[0m\n"
+	add-apt-repository -y ppa:webupd8team/java
+	apt-get -y update
+	apt-get install --yes --force-yes \
+		oracle-java8-installer oracle-java8-set-default
 echo ""
 
-echo -e "\033[1m===> Baixando Eclipse Luna no site oficial (htp://www.eclipse.org) ... \033[0m\n"
+echo -e "\033[1m===> Downloading Eclipse Luna (htp://www.eclipse.org) ... \033[0m\n"
 
 PROCESSADOR=`uname -p`
 if test $PROCESSADOR = "i686"
 	then
 		wget http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/luna/R/eclipse-standard-luna-R-linux-gtk.tar.gz
-        echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
+        echo -e "\033[1m===> Unpacking file ... \033[0m\n"
         tar -xzf eclipse-standard-luna-R-linux-gtk.tar.gz
 	else
 		wget http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/luna/R/eclipse-standard-luna-R-linux-gtk-x86_64.tar.gz
-        echo -e "\033[1m===> Descompactando arquivo ... \033[0m\n"
+        echo -e "\033[1m===> Unpacking file ... \033[0m\n"
         tar -xzf eclipse-standard-luna-R-linux-gtk-x86_64.tar.gz
 fi		
-
-echo "Download completo!"	
 echo ""
 
 if [ -e /usr/local/eclipse ]
 	then
-		echo "removendo diretório antigo do eclipse"
+		echo "Removing old eclipse path..."
 		sudo rm -R /usr/local/eclipse
 fi	
 
-echo -e "\033[1m===> Copiando arquivo para /usr/local ... \033[0m\n"
+echo -e "\033[1m===> Moving unpacked files to /usr/local ... \033[0m\n"
 sudo cp -R eclipse /usr/local
-echo ""	
-
-echo -e "\033[1m===> Copiando ícone do Eclipse para o diretório de ícones do sistema ... \033[0m\n"
-sudo cp /usr/local/eclipse/icon.xpm /usr/share/pixmaps/eclipse.png
 echo ""
 
-echo -e "\033[1m===> Criando atalho no menu de aplicativos ... \033[0m\n"
+sudo cp /usr/local/eclipse/icon.xpm /usr/share/pixmaps/eclipse.png
+
 sudo touch /usr/share/applications/eclipse.desktop
 
 sudo bash -c 'cat > /usr/share/applications/eclipse.desktop'<<-EOF
@@ -120,29 +122,22 @@ Categories=Application;Development;
 Icon=eclipse.png
 EOF
 
-echo ""
-
-echo -e "\033[1m===> Criando grupo DEVELOPMENT e inserindo usuário no grupo ... \033[0m\n"
 sudo addgroup development
 sudo usermod -a -G development $(whoami)
-echo ""
 
-echo -e "\033[1m===> Configurando arquivos do Eclipse para pertencerem ao grupo DEVELOPMENT ... \033[0m\n"
 sudo chgrp development -R /usr/local/eclipse/
 sudo chmod g+w -R /usr/local/eclipse/
-echo ""
 
 sudo rm -R eclipse
 
-echo -e "\033[1m===> Eclipse Classic instalado com sucesso! \033[0m\n"
+echo -e "\033[1m===> Success! \033[0m\n"
 echo ""
 }
-
 ## END ECLIPSE 
 
 
 #----------------------------------#
-#          MENU PRINCIPAL          #
+#            MENU                  #
 #----------------------------------#
 
 function Menu {
@@ -152,7 +147,7 @@ echo "What would you like to do? (enter the desired option number) "; echo "";
 INPUT=0
 while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ]
 do
-echo "1. Install Nginx, Mysql 5 e PHP5"
+echo "1. Install Nginx, Mysql 5.6 and PHP 5.6"
 echo "2. Install Eclipse Luna Classic"
 echo "3. Exit"
 
@@ -174,7 +169,7 @@ if [ $INPUT -eq 3 ]
 then
 	return
 else
-	echo "opção invalida"
+	echo "Invalid!"
 	Menu
 fi
 fi
@@ -185,12 +180,12 @@ done
 
 
 #----------------------------------#
-#      CHAMA O MENU PRINCIPAL      #
+#        START MENU                #
 #----------------------------------#
 
 Menu
 
-# FIM 
+# END 
 
 
 
